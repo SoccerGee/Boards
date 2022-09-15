@@ -1,10 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
+const { env } = require('process');
 const prisma = new PrismaClient();
 
 async function main() {
-    /*
-        Add DB seed here.
-    */
+    await prisma.member.create({
+        data: {
+            email: env.SEED_USER_EMAIL,
+        },
+    });
 }
 
 main()

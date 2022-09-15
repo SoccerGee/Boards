@@ -1,6 +1,6 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, { useState, FunctionComponent, MouseEvent } from 'react';
 
-import { HeaderProps } from '../../types/component/Header';
+import { HeaderProps, MenuButtonEventInterface } from '../../types/component/Header';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
@@ -11,11 +11,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 
+import { useUser } from '@auth0/nextjs-auth0';
 
 const Header: FunctionComponent<HeaderProps> = ({ text = "", ...rest }) => {
-    const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
+    const { user } = useUser();
+    const [anchorEl, setAnchorEl] = useState<Element | null >(null);
 
-    const handleMenu = (event: React.ChangeEvent<EventTarget>) => {
+    const handleMenuClick = (event: MouseEvent) => {
         setAnchorEl(event.currentTarget);
     };
     
@@ -44,7 +46,40 @@ const Header: FunctionComponent<HeaderProps> = ({ text = "", ...rest }) => {
                 <Button sx={{ flexGrow: 1, color: 'inherit' }} size="large" href="/">
                     {text}
                 </Button>
-                <Button color="inherit" onClick={handleLogin}>Login</Button>
+                {
+                    user ?
+                        <>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleMenuClick}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={didClickProfile}>Profile</MenuItem>
+                                <MenuItem onClick={handleLogout}>Log Out...</MenuItem>
+                            </Menu>
+                        </>
+                        :
+                        <Button color="inherit" onClick={handleLogin}>Login</Button>
+                }
             </Toolbar>
         </AppBar>
     );
