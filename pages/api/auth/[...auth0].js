@@ -2,7 +2,7 @@ import { handleAuth, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
 
 const getLoginState = (req, loginOptions) => {
     return {
-        returnTo: `http://${req.headers.host}/`
+        returnTo: `/`
     }
 }
 
