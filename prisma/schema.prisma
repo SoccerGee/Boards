@@ -17,4 +17,23 @@ model Member {
   createdAt DateTime            @default(now())
   updatedAt DateTime            @updatedAt
   email     String              @unique
+  boards    MemberBoard[]
+}
+
+model Board {
+  id        Int                 @default(autoincrement()) @id
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  name      String              @unique
+  members   MemberBoard[]
+}
+
+model MemberBoard {
+  member    Member              @relation(fields: [memberId], references: [id])
+  memberId  Int
+
+  board     Board               @relation(fields: [boardId], references: [id])
+  boardId   Int
+
+  @@id([memberId, boardId])
 }

@@ -3,11 +3,27 @@ const { env } = require('process');
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.member.create({
-        data: {
-            email: env.SEED_USER_EMAIL,
-        },
-    });
+  await prisma.member.create({
+    data: {
+      email: 'grant.tuttle@gmail.com',
+      boards: {
+        create: [
+          {
+            board: {
+              connectOrCreate: {
+                where: {
+                  name: 'main',
+                },
+                create: {
+                  name: 'main',
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+  });
 }
 
 main()
