@@ -1,6 +1,6 @@
-import React, { useState, FunctionComponent, MouseEvent } from 'react';
+import React, { useState, MouseEvent } from 'react';
 
-import { HeaderProps, MenuButtonEventInterface } from '../../types/component/Header';
+import { HeaderProps } from '../../types/component/Header';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
@@ -13,7 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 
 import { useUser } from '@auth0/nextjs-auth0';
 
-const Header: FunctionComponent<HeaderProps> = ({ text = "", ...rest }) => {
+const Header: React.FC<HeaderProps> = ({ text = "", ...rest }) => {
     const { user } = useUser();
     const [anchorEl, setAnchorEl] = useState<Element | null >(null);
 
