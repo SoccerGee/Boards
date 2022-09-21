@@ -58,7 +58,7 @@ const Page: NextPageWithLayout<BoardsProps> = (props) => {
           </TableHead>
           <TableBody>
             {boards.map((board: BoardQueryResponse, index: number) => (
-              <TableRow>
+              <TableRow key={board.name}>
                 <TableCell component="th" scope="row">{index}</TableCell>
                 <TableCell>{board.name}</TableCell>
               </TableRow>
