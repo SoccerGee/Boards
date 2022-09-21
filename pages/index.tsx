@@ -2,9 +2,8 @@ import type { ReactElement } from 'react';
 import type { NextPageWithLayout } from './_app';
 
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 
-import Header from '../components/Header';
+import Layout from '../components/Layout';
 
 const Page: NextPageWithLayout = () => {
   return (
@@ -18,9 +17,9 @@ const Page: NextPageWithLayout = () => {
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return (
-    <div className={styles.container}>
+    <Layout>
       {page}
-    </div>
+    </Layout>
   )
 }
 

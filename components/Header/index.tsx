@@ -14,75 +14,75 @@ import Toolbar from '@mui/material/Toolbar';
 import { useUser } from '@auth0/nextjs-auth0';
 
 const Header: React.FC<HeaderProps> = ({ text = "", ...rest }) => {
-    const { user } = useUser();
-    const [anchorEl, setAnchorEl] = useState<Element | null >(null);
+  const { user } = useUser();
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-    const handleMenuClick = (event: MouseEvent) => {
-        setAnchorEl(event.currentTarget);
-    };
-    
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    
-    const didClickProfile = (e: React.ChangeEvent<EventTarget>) => {
-        e.preventDefault();
-        window.location.href = "/profile";
-    };
+  const handleMenuClick = (event: MouseEvent) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    const handleLogout = (e: React.ChangeEvent<EventTarget>) => {
-        e.preventDefault();
-        window.location.href = "/api/auth/logout";
-    }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    const handleLogin =(e: React.ChangeEvent<EventTarget>) => {
-        e.preventDefault();
-        window.location.href = "/api/auth/login";
-    }
-    
-    return(
-        <AppBar position="sticky" {...rest}>
-            <Toolbar>
-                <Button sx={{ flexGrow: 1, color: 'inherit' }} size="large" href="/">
-                    {text}
-                </Button>
-                {
-                    user ?
-                        <>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenuClick}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            <Menu
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={didClickProfile}>Profile</MenuItem>
-                                <MenuItem onClick={handleLogout}>Log Out...</MenuItem>
-                            </Menu>
-                        </>
-                        :
-                        <Button color="inherit" onClick={handleLogin}>Login</Button>
-                }
-            </Toolbar>
-        </AppBar>
-    );
+  const didClickProfile = (e: React.ChangeEvent<EventTarget>) => {
+    e.preventDefault();
+    window.location.href = "/profile";
+  };
+
+  const handleLogout = (e: React.ChangeEvent<EventTarget>) => {
+    e.preventDefault();
+    window.location.href = "/api/auth/logout";
+  }
+
+  const handleLogin = (e: React.ChangeEvent<EventTarget>) => {
+    e.preventDefault();
+    window.location.href = "/api/auth/login";
+  }
+
+  return (
+    <AppBar position="sticky" {...rest}>
+      <Toolbar>
+        <Button sx={{ flexGrow: 1, color: 'inherit' }} size="large" href="/">
+          {text}
+        </Button>
+        {
+          user ?
+            <>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenuClick}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={didClickProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Log Out...</MenuItem>
+              </Menu>
+            </>
+            :
+            <Button color="inherit" onClick={handleLogin}>Login</Button>
+        }
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 export default Header;
