@@ -35,14 +35,14 @@ export const getServerSideProps = withPageAuthRequired({
         },
         where: {
           members: {
-            every: {
+            some: {
               member: {
                 email: session?.user.email,
               },
             },
           },
         },
-      });    
+      });
     return { props: { boards } }
   }
 });
