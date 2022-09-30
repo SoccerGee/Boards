@@ -13,9 +13,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container } from '@mui/system';
+import Link from 'next/link';
 
 type BoardQueryResponse = {
-  name: string
+  name: string,
+  id: number
 };
 type BoardsProps = {
   boards: BoardQueryResponse[]
@@ -29,6 +31,7 @@ export const getServerSideProps = withPageAuthRequired({
       const boards = await prisma.board.findMany({
         select: {
           name: true,
+          id: true,
         },
         where: {
           members: {
@@ -51,15 +54,19 @@ const Page: NextPageWithLayout<BoardsProps> = (props) => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableCell>#</TableCell>
-            <TableCell>Name</TableCell>
+            <TableRow>
+              <TableCell variant="head">#</TableCell>
+              <TableCell variant="head">Name</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {boards.map((board: BoardQueryResponse, index: number) => (
-              <TableRow key={board.name}>
-                <TableCell component="th" scope="row">{index}</TableCell>
-                <TableCell>{board.name}</TableCell>
-              </TableRow>
+              <Link href={`/b/${board.id}`} passHref  key={board.name}>
+                <TableRow>
+                  <TableCell scope="row">{index}</TableCell>
+                  <TableCell>{board.name}</TableCell>
+                </TableRow>
+              </Link>
             ))}
           </TableBody>
         </Table>
