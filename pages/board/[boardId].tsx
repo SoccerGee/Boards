@@ -44,7 +44,7 @@ export const getServerSideProps = withPageAuthRequired({
 const Page: NextPageWithLayout<BoardProps> = (props) => {
   const { board } = props;
   return (
-    <h2>You're looking at a really dope Board named: {board.name}</h2>
+    <h2>You&apos;re looking at a really dope Board named: {board.name}</h2>
   );
 };
 
