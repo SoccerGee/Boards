@@ -1,7 +1,5 @@
 import type { NextPageWithLayout } from '../_app';
 import type { ReactElement } from 'react';
-import type { WithPageAuthRequiredProps } from '@auth0/nextjs-auth0';
-import type { NextPageContext } from 'next';
 
 import Layout from '../../components/Layout';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
@@ -16,32 +14,32 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container } from '@mui/system';
 
-type BoardQueryResponse = WithPageAuthRequiredProps & {
+type BoardQueryResponse = {
   name: string
 };
 type BoardsProps = {
   boards: BoardQueryResponse[]
 }
 
-export const getServerSideProps: WithPageAuthRequiredProps = withPageAuthRequired({
+export const getServerSideProps = withPageAuthRequired({
   returnTo: '/',
-  async getServerSideProps(ctx: NextPageContext) {
-    const { user: { email } } = getSession(ctx.req);
-    const prisma = new PrismaClient();
-    const boards: BoardQueryResponse[] = await prisma.board.findMany({
-      select: {
-        name: true,
-      },
-      where: {
-        members: {
-          every: {
-            member: {
-              email,
+  async getServerSideProps(ctx) {
+    const session = getSession(ctx.req, ctx.res);
+      const prisma = new PrismaClient();
+      const boards = await prisma.board.findMany({
+        select: {
+          name: true,
+        },
+        where: {
+          members: {
+            every: {
+              member: {
+                email: session?.user.email,
+              },
             },
           },
         },
-      },
-    });
+      });    
     return { props: { boards } }
   }
 });
