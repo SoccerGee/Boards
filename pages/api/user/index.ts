@@ -11,20 +11,9 @@ const handleNewUser = async (email: string) => {
   const createMemberResponse = await prisma.member.create({
     data: {
       email,
-      boards: {
-        create: [
-          { 
-            board: { 
-              connect: { 
-                id: 1 
-              } 
-            } 
-          },
-        ],
-      }
-    }
+    },
   });
-  return createMemberResponse
+  return 
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
