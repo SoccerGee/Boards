@@ -20,29 +20,30 @@ type BoardQueryResponse = {
   id: number
 };
 type BoardsProps = {
-  boards: BoardQueryResponse[]
+  boards: BoardQueryResponse[],
+  isAdmin: boolean
 }
 
 export const getServerSideProps = withPageAuthRequired({
   returnTo: '/',
   async getServerSideProps(ctx) {
     const session = getSession(ctx.req, ctx.res);
-      const prisma = new PrismaClient();
-      const boards = await prisma.board.findMany({
-        select: {
-          name: true,
-          id: true,
-        },
-        where: {
-          members: {
-            some: {
-              member: {
-                email: session?.user.email,
-              },
+    const prisma = new PrismaClient();
+    const boards = await prisma.board.findMany({
+      select: {
+        name: true,
+        id: true,
+      },
+      where: {
+        members: {
+          some: {
+            member: {
+              email: session?.user.email,
             },
           },
         },
-      });
+      },
+    });
     return { props: { boards } }
   }
 });
@@ -61,7 +62,7 @@ const Page: NextPageWithLayout<BoardsProps> = (props) => {
           </TableHead>
           <TableBody>
             {boards.map((board: BoardQueryResponse, index: number) => (
-              <Link href={`/b/${board.id}`} passHref  key={board.name}>
+              <Link href={`/board/${board.id}`} passHref  key={board.name}>
                 <TableRow>
                   <TableCell scope="row">{index}</TableCell>
                   <TableCell>{board.name}</TableCell>

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 const getLoginState = (req: NextApiRequest) => {
     return {
-        returnTo: '/'
+        returnTo: '/boards'
     }
 }
 
