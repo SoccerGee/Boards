@@ -23,7 +23,7 @@ const handleNewUser = async (email: string) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    console.log(`recieved request: ${req.body}`)
+    console.log(`recieved request: ${JSON.stringify(req.body)}`)
     const { email } = req.body as newUserBody;
     if (email) {
       try {
