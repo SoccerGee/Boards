@@ -13,7 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container } from '@mui/system';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type BoardQueryResponse = {
   name: string,
@@ -49,7 +49,14 @@ export const getServerSideProps = withPageAuthRequired({
 });
 
 const Page: NextPageWithLayout<BoardsProps> = (props) => {
+  const router = useRouter();
+
   const boards = props.boards;
+
+  const handleClick = (boardId: number) => () => {
+    router.push(`/board/${boardId}`)
+  }
+
   return (
     <Container maxWidth="sm">
       <TableContainer component={Paper}>
@@ -62,12 +69,10 @@ const Page: NextPageWithLayout<BoardsProps> = (props) => {
           </TableHead>
           <TableBody>
             {boards.map((board: BoardQueryResponse, index: number) => (
-              <Link href={`/board/${board.id}`} passHref  key={board.name}>
-                <TableRow>
-                  <TableCell scope="row">{index}</TableCell>
-                  <TableCell>{board.name}</TableCell>
-                </TableRow>
-              </Link>
+              <TableRow key={board.name} onClick={handleClick(board.id)}>
+                  <TableCell scope="row"><p>{index}</p></TableCell>
+                  <TableCell><p>{board.name}</p></TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
