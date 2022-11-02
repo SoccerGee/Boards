@@ -13,7 +13,7 @@ const handleNewUser = async (email: string) => {
       email,
     },
   });
-  return 
+  return createMemberResponse;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

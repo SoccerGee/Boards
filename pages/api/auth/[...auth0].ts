@@ -1,4 +1,4 @@
-import { handleAuth, handleLogin, handleLogout, HandlerError } from '@auth0/nextjs-auth0';
+import { handleAuth, handleLogin, HandlerError } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const getLoginState = (req: NextApiRequest) => {
