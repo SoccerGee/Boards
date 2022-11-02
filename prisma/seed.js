@@ -1,5 +1,4 @@
 const { PrismaClient } = require('@prisma/client');
-const { env } = require('process');
 const prisma = new PrismaClient();
 
 async function main() {
