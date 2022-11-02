@@ -7,21 +7,31 @@ interface newUserBody {
 }
 
 const handleNewUser = async (email: string) => {
-  const prisma = new PrismaClient();
-  const createMemberResponse = await prisma.member.create({
-    data: {
-      email,
-    },
-  });
-  return createMemberResponse;
+  console.log(`handling the creation of user: ${email}`);
+  try {
+    const prisma = new PrismaClient();
+    const createMemberResponse = await prisma.member.create({
+      data: {
+        email,
+      },
+    });
+    return createMemberResponse;
+  } catch (err) {
+    throw(err);
+  }
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
+    console.log(`recieved request: ${req.body}`)
     const { email } = req.body as newUserBody;
     if (email) {
-      const newUser = await handleNewUser(email);
-      res.status(200).send({ data: newUser });
+      try {
+        const data = await handleNewUser(email);
+        res.status(200).send({ data });
+      } catch (err) {
+        res.status(500).send(err);
+      }
     } else {
       return res.status(500).send({ error: "No email found on the create user request..." })
     }
